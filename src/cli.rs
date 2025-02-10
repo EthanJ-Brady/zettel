@@ -4,44 +4,27 @@ use clap::{Args, Parser, Subcommand};
 #[command(version, about, long_about = None)]
 pub struct Cli {
     #[command(subcommand)]
-    command: Commands,
-}
-
-impl Cli {
-    pub fn message(&self) -> &str {
-        self.command.message()
-    }
+    pub command: Commands,
 }
 
 #[derive(Args, Debug)]
-struct NewArgs {
-    title: String,
+pub struct NewArgs {
+    pub title: String,
 }
 
 #[derive(Args, Debug)]
-struct FindArgs {}
+pub struct FindArgs {}
 
 #[derive(Args, Debug)]
-struct OpenArgs {}
+pub struct OpenArgs {}
 
 #[derive(Args, Debug)]
-struct AppendArgs {}
+pub struct AppendArgs {}
 
 #[derive(Subcommand, Debug)]
-enum Commands {
+pub enum Commands {
     New(NewArgs),
     Find(FindArgs),
     Open(OpenArgs),
     Append(AppendArgs),
-}
-
-impl Commands {
-    fn message(&self) -> &str {
-        match self {
-            Self::New(args) => &args.title,
-            Self::Find(_args) => "find",
-            Self::Open(_args) => "open",
-            Self::Append(_args) => "append",
-        }
-    }
 }
