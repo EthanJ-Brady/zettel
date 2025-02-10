@@ -14,7 +14,9 @@ impl Cli {
 }
 
 #[derive(Args, Debug)]
-struct NewArgs {}
+struct NewArgs {
+    title: String,
+}
 
 #[derive(Args, Debug)]
 struct FindArgs {}
@@ -36,7 +38,7 @@ enum Commands {
 impl Commands {
     fn message(&self) -> &str {
         match self {
-            Self::New(_args) => "new",
+            Self::New(args) => &args.title,
             Self::Find(_args) => "find",
             Self::Open(_args) => "open",
             Self::Append(_args) => "append",
