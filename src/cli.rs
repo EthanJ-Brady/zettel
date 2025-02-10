@@ -19,10 +19,18 @@ struct NewArgs {}
 #[derive(Args, Debug)]
 struct FindArgs {}
 
+#[derive(Args, Debug)]
+struct OpenArgs {}
+
+#[derive(Args, Debug)]
+struct AppendArgs {}
+
 #[derive(Subcommand, Debug)]
 enum Commands {
     New(NewArgs),
     Find(FindArgs),
+    Open(OpenArgs),
+    Append(AppendArgs),
 }
 
 impl Commands {
@@ -30,6 +38,8 @@ impl Commands {
         match self {
             Self::New(_args) => "new",
             Self::Find(_args) => "find",
+            Self::Open(_args) => "open",
+            Self::Append(_args) => "append",
         }
     }
 }
