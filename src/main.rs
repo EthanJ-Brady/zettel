@@ -1,3 +1,10 @@
+mod cli;
+
+use clap::Parser;
+use cli::Cli;
+
 fn main() {
-    println!("Hello, world!");
+    let args = Cli::parse();
+
+    println!("Name: {} | City: {}", args.name, args.city);
 }
