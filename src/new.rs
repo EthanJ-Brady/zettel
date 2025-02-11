@@ -2,9 +2,10 @@ use chrono::Local;
 use std::fs::File;
 use std::io::prelude::*;
 
-pub fn new(title: &str) -> std::io::Result<()> {
+pub fn new(title: &str, path: &str) -> std::io::Result<()> {
     let file_name = get_file_name(title);
-    let mut file = File::create(file_name)?;
+    let file_path = format!("{path}/{file_name}");
+    let mut file = File::create(file_path)?;
 
     let header = title;
     let file_text = format!("# {header}");
