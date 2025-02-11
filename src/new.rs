@@ -3,11 +3,7 @@ use std::fs::File;
 use std::io::prelude::*;
 
 pub fn new(title: &str) -> std::io::Result<()> {
-    let file_name = format!("{title}.md");
-    let file_name = file_name.replace(" ", "-");
-    let file_name = file_name.trim().to_lowercase();
-    let zettel_date = get_zettel_datetime();
-    let file_name = format!("{zettel_date}-{file_name}");
+    let file_name = get_file_name(title);
     let mut file = File::create(file_name)?;
 
     let header = title;
@@ -15,6 +11,14 @@ pub fn new(title: &str) -> std::io::Result<()> {
     write!(file, "{}", file_text)?;
 
     Ok(())
+}
+
+fn get_file_name(title: &str) -> String {
+    let file_name = format!("{title}.md");
+    let file_name = file_name.replace(" ", "-");
+    let file_name = file_name.trim().to_lowercase();
+    let zettel_date = get_zettel_datetime();
+    format!("{zettel_date}-{file_name}")
 }
 
 fn get_zettel_datetime() -> String {
