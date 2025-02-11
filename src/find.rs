@@ -8,7 +8,7 @@ pub fn find(search_string: &str, dir: &str) -> Result<(), io::Error> {
     for path in paths {
         let file_name = path.unwrap().file_name().into_string().unwrap();
         if file_name.contains(search_string) {
-            println!("{} {}", calculate_hash(&file_name), file_name)
+            println!("{} {}", &calculate_hash(&file_name)[..7], file_name)
         }
     }
 
