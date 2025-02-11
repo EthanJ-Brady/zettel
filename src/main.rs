@@ -18,7 +18,7 @@ fn main() {
         Commands::New(args) => {
             new(&args.title, &args.body, NOTES_DIR).expect("Failed to create file")
         }
-        Commands::Find(_args) => find("", NOTES_DIR).expect("Failed to find files"),
+        Commands::Find(args) => find(&args.search_string, NOTES_DIR).expect("Failed to find files"),
         Commands::Open(_args) => dummy().expect("Failed to open"),
         Commands::Append(_args) => dummy().expect("Failed to append"),
     }

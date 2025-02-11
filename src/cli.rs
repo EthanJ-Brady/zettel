@@ -15,7 +15,9 @@ pub struct NewArgs {
 }
 
 #[derive(Args, Debug)]
-pub struct FindArgs {}
+pub struct FindArgs {
+    pub search_string: String,
+}
 
 #[derive(Args, Debug)]
 pub struct OpenArgs {}
