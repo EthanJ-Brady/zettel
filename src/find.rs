@@ -15,8 +15,9 @@ pub fn find(search_string: &str, dir: &str) -> Result<(), io::Error> {
     Ok(())
 }
 
-pub fn calculate_hash<T: Hash>(t: &T) -> u64 {
+pub fn calculate_hash<T: Hash>(t: &T) -> String {
     let mut s = DefaultHasher::new();
     t.hash(&mut s);
-    s.finish()
+    let decimal_num = s.finish();
+    format!("{:x}", decimal_num)
 }
