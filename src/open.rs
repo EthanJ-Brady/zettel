@@ -1,9 +1,12 @@
+use crate::cli::OpenArgs;
 use crate::find::find_first;
 use std::io;
 use std::path::PathBuf;
 use std::{env::var, fs::File, io::Read, process::Command};
 
-pub fn open(search_string: &str, dir: &str) -> Result<(), io::Error> {
+pub fn open(args: &OpenArgs, dir: &str) -> Result<(), io::Error> {
+    let search_string = &args.search_string;
+
     let dir_entry = find_first(search_string, dir);
     open_file(dir_entry.path())
 }

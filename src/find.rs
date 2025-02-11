@@ -3,7 +3,11 @@ use std::fs::{self, DirEntry};
 use std::hash::{DefaultHasher, Hash, Hasher};
 use std::io;
 
-pub fn find(search_string: &str, dir: &str) -> Result<(), io::Error> {
+use crate::cli::FindArgs;
+
+pub fn find(args: &FindArgs, dir: &str) -> Result<(), io::Error> {
+    let search_string = &args.search_string;
+
     let paths = fs::read_dir(&dir).unwrap();
 
     for path in paths {
