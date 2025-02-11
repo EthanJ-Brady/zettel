@@ -10,6 +10,7 @@ pub fn new(args: &NewArgs, dir: &str) -> std::io::Result<()> {
     let title = &args.title;
     let body = &args.body;
     let tags = &args.tags;
+    let sources = &args.sources;
     let open = &args.open;
 
     let file_name = get_file_name(title);
@@ -23,7 +24,7 @@ pub fn new(args: &NewArgs, dir: &str) -> std::io::Result<()> {
     create_dir_all(prefix).unwrap();
     let mut file = File::create(&file_path)?;
 
-    let file_content = get_file_content(title, body, tags);
+    let file_content = get_file_content(title, body, tags, sources);
     write!(file, "{}", file_content)?;
 
     if *open {
@@ -41,7 +42,12 @@ fn get_file_name(title: &str) -> String {
     format!("{zettel_date}-{file_name}")
 }
 
-fn get_file_content(title: &str, body: &str, tags: &Option<Vec<String>>) -> String {
+fn get_file_content(
+    title: &str,
+    body: &str,
+    tags: &Option<Vec<String>>,
+    sources: &Option<Vec<String>>,
+) -> String {
     let mut content = format!("# {title}");
 
     let tags = tags.clone().unwrap_or(Vec::new());
@@ -56,6 +62,15 @@ fn get_file_content(title: &str, body: &str, tags: &Option<Vec<String>>) -> Stri
     if body != "" {
         content.push_str(&format!("\n\n{body}"))
     }
+
+    let sources = sources.clone().unwrap_or(Vec::new());
+    if sources.len() > 0 {
+        content.push_str("\n");
+        for source in sources {
+            content.push_str(&format!("\nSource: [{source}]({source})"));
+        }
+    }
+
     content.push_str("\n"); // preference to end with newline
     content
 }
