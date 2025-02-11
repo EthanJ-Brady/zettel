@@ -9,15 +9,16 @@ pub fn find(search_string: &str, dir: &str) -> Result<(), io::Error> {
     for path in paths {
         let file_name = path.unwrap().file_name().into_string().unwrap();
         if file_name.contains(search_string) {
-            println!(
-                "{} {}",
-                (&calculate_hash(&file_name)[..7]).yellow(),
-                file_name
-            )
+            println!("{}", get_file_print_string(&file_name));
         }
     }
 
     Ok(())
+}
+
+fn get_file_print_string(file_name: &str) -> String {
+    let hash = (&calculate_hash(&file_name)[..7]).yellow();
+    format!("{hash} {file_name}")
 }
 
 pub fn calculate_hash<T: Hash>(t: &T) -> String {
