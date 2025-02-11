@@ -10,6 +10,8 @@ pub struct Cli {
 #[derive(Args, Debug)]
 pub struct NewArgs {
     pub title: String,
+    #[arg(short = 'b', long = "body", default_value = "")]
+    pub body: String,
 }
 
 #[derive(Args, Debug)]
