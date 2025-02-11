@@ -16,6 +16,19 @@ pub fn find(search_string: &str, dir: &str) -> Result<(), io::Error> {
     Ok(())
 }
 
+pub fn find_first(search_string: &str, dir: &str) -> String {
+    let paths = fs::read_dir(&dir).unwrap();
+
+    for path in paths {
+        let file_name = path.unwrap().file_name().into_string().unwrap();
+        let file_name_and_hash = get_file_print_string(&file_name);
+        if file_name_and_hash.contains(search_string) {
+            return file_name;
+        }
+    }
+    panic!("Could not find file that matched {}", search_string)
+}
+
 fn get_file_print_string(file_name: &str) -> String {
     let hash = (&calculate_hash(&file_name)[..7]).yellow();
     format!("{hash} {file_name}")
