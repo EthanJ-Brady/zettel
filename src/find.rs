@@ -1,5 +1,5 @@
 use colored::Colorize;
-use std::fs;
+use std::fs::{self, DirEntry};
 use std::hash::{DefaultHasher, Hash, Hasher};
 use std::io;
 
@@ -16,14 +16,14 @@ pub fn find(search_string: &str, dir: &str) -> Result<(), io::Error> {
     Ok(())
 }
 
-pub fn find_first(search_string: &str, dir: &str) -> String {
+pub fn find_first(search_string: &str, dir: &str) -> DirEntry {
     let paths = fs::read_dir(&dir).unwrap();
 
     for path in paths {
-        let file_name = path.unwrap().file_name().into_string().unwrap();
+        let file_name = path.as_ref().unwrap().file_name().into_string().unwrap();
         let file_name_and_hash = get_file_print_string(&file_name);
         if file_name_and_hash.contains(search_string) {
-            return file_name;
+            return path.unwrap();
         }
     }
     panic!("Could not find file that matched {}", search_string)

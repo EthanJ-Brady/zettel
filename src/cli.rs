@@ -20,7 +20,9 @@ pub struct FindArgs {
 }
 
 #[derive(Args, Debug)]
-pub struct OpenArgs {}
+pub struct OpenArgs {
+    pub search_string: String,
+}
 
 #[derive(Args, Debug)]
 pub struct AppendArgs {}
