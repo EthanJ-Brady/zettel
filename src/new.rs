@@ -1,10 +1,14 @@
 use chrono::Local;
 use std::fs::File;
 use std::io::prelude::*;
+use std::path::Path;
 
-pub fn new(title: &str, path: &str) -> std::io::Result<()> {
+pub fn new(title: &str, dir: &str) -> std::io::Result<()> {
     let file_name = get_file_name(title);
-    let file_path = format!("{path}/{file_name}");
+    let file_path = format!("{dir}/{file_name}");
+    if Path::new(&file_path).is_file() {
+        panic!("File already exists");
+    }
     let mut file = File::create(file_path)?;
 
     let header = title;
