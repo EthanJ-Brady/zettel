@@ -1,9 +1,16 @@
+use crate::open::open_file;
 use chrono::Local;
 use std::fs::{create_dir_all, File};
 use std::io::prelude::*;
 use std::path::Path;
 
-pub fn new(title: &str, body: &str, dir: &str) -> std::io::Result<()> {
+use crate::cli::NewArgs;
+
+pub fn new(args: &NewArgs, dir: &str) -> std::io::Result<()> {
+    let title = &args.title;
+    let body = &args.body;
+    let open = &args.open;
+
     let file_name = get_file_name(title);
     let file_path = format!("{dir}/{file_name}");
     let path = Path::new(&file_path);
@@ -13,10 +20,14 @@ pub fn new(title: &str, body: &str, dir: &str) -> std::io::Result<()> {
     }
     let prefix = path.parent().unwrap();
     create_dir_all(prefix).unwrap();
-    let mut file = File::create(file_path)?;
+    let mut file = File::create(&file_path)?;
 
     let file_content = get_file_content(title, body);
     write!(file, "{}", file_content)?;
+
+    if *open {
+        open_file(path.to_path_buf())?
+    }
 
     Ok(())
 }

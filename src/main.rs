@@ -17,9 +17,7 @@ fn main() {
     let args = Cli::parse();
 
     match &args.command {
-        Commands::New(args) => {
-            new(&args.title, &args.body, NOTES_DIR).expect("Failed to create file")
-        }
+        Commands::New(args) => new(&args, NOTES_DIR).expect("Failed to create file"),
         Commands::Find(args) => find(&args.search_string, NOTES_DIR).expect("Failed to find files"),
         Commands::Open(args) => open(&args.search_string, NOTES_DIR).expect("Failed to find file"),
         Commands::Append(_args) => dummy().expect("Failed to append"),
