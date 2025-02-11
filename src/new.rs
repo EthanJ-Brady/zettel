@@ -9,6 +9,7 @@ use crate::cli::NewArgs;
 pub fn new(args: &NewArgs, dir: &str) -> std::io::Result<()> {
     let title = &args.title;
     let body = &args.body;
+    let tags = &args.tags;
     let open = &args.open;
 
     let file_name = get_file_name(title);
@@ -22,7 +23,7 @@ pub fn new(args: &NewArgs, dir: &str) -> std::io::Result<()> {
     create_dir_all(prefix).unwrap();
     let mut file = File::create(&file_path)?;
 
-    let file_content = get_file_content(title, body);
+    let file_content = get_file_content(title, body, tags);
     write!(file, "{}", file_content)?;
 
     if *open {
@@ -40,8 +41,18 @@ fn get_file_name(title: &str) -> String {
     format!("{zettel_date}-{file_name}")
 }
 
-fn get_file_content(title: &str, body: &str) -> String {
+fn get_file_content(title: &str, body: &str, tags: &Option<Vec<String>>) -> String {
     let mut content = format!("# {title}");
+
+    let tags = tags.clone().unwrap_or(Vec::new());
+    if tags.len() > 0 {
+        content.push_str("\n\n");
+        for tag in tags {
+            content.push_str(&format!("#{tag} "));
+        }
+        content.pop();
+    }
+
     if body != "" {
         content.push_str(&format!("\n\n{body}"))
     }

@@ -12,6 +12,8 @@ pub struct NewArgs {
     pub title: String,
     #[arg(short = 'b', long = "body", default_value = "")]
     pub body: String,
+    #[arg(short = 't', long = "tag")]
+    pub tags: Option<Vec<String>>,
     #[arg(short = 'o', long = "open", action)]
     pub open: bool,
 }
