@@ -1,4 +1,5 @@
 use std::fs;
+use std::hash::{DefaultHasher, Hash, Hasher};
 use std::io;
 
 pub fn find(search_string: &str, dir: &str) -> Result<(), io::Error> {
@@ -7,9 +8,15 @@ pub fn find(search_string: &str, dir: &str) -> Result<(), io::Error> {
     for path in paths {
         let file_name = path.unwrap().file_name().into_string().unwrap();
         if file_name.contains(search_string) {
-            println!("{}", file_name)
+            println!("{} {}", calculate_hash(&file_name), file_name)
         }
     }
 
     Ok(())
+}
+
+pub fn calculate_hash<T: Hash>(t: &T) -> u64 {
+    let mut s = DefaultHasher::new();
+    t.hash(&mut s);
+    s.finish()
 }
