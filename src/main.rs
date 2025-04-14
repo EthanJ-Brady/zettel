@@ -11,7 +11,7 @@ use new::new;
 use open::open;
 use std::io;
 
-static NOTES_DIR: &str = "./notes";
+static NOTES_DIR: &str = "/home/ethan/Notes/";
 
 fn main() {
     let args = Cli::parse();
